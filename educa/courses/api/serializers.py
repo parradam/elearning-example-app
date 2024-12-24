@@ -1,6 +1,17 @@
 from django.db.models import Count
 from rest_framework import serializers
-from courses.models import Module, Course, Subject
+from courses.models import Content, Module, Course, Subject
+
+class ItemRelatedField(serializers.RelatedField):
+    def to_representation(self, value):
+        return value.render()
+    
+class ContentSerializer(serializers.ModelSerializer):
+    item = ItemRelatedField(read_only=True)
+
+    class Meta:
+        model = Content
+        fields = ['order', 'item']
 
 class SubjectSerializer(serializers.ModelSerializer):
     total_courses = serializers.IntegerField()
@@ -30,6 +41,29 @@ class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Module
         fields = ['order', 'title', 'description']
+
+class ModuleWithContentsSerializer(serializers.ModelSerializer):
+    contents = ContentSerializer(many=True)
+
+    class Meta:
+        model = Module
+        fields = ['order', 'title', 'description', 'contents']
+
+class CourseWithContentsSerializer(serializers.ModelSerializer):
+    modules = ModuleWithContentsSerializer(many=True)
+
+    class Meta:
+        model = Course
+        fields = [
+            'id',
+            'subject',
+            'title',
+            'slug',
+            'overview',
+            'created',
+            'owner',
+            'modules'
+        ]
 
 class CourseSerializer(serializers.ModelSerializer):
     # DRF does not optimise querysets, so one additional SQL query per course runs
