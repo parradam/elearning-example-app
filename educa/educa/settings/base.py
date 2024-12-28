@@ -132,6 +132,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Root directory for all static files
+# Update using: python manage.py collectstatic
+STATIC_ROOT = BASE_DIR / 'static'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

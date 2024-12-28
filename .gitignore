@@ -3,6 +3,7 @@ venv
 *.sqlite3
 **/fixtures
 __pycache__
+static/
 media/
 data/
 uwsgi_app.sock
