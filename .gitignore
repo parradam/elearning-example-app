@@ -4,3 +4,4 @@ venv
 **/fixtures
 __pycache__
 media/
+data/
