@@ -6,4 +6,5 @@ __pycache__
 static/
 media/
 data/
+ssl/
 uwsgi_app.sock
