@@ -13,8 +13,8 @@ RUN pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Collect static files
-RUN python manage.py collectstatic --settings=educa.settings.prod
-
 # Copy the Django project
 COPY . .
+
+# Collect static files
+RUN python educa/manage.py collectstatic --noinput --settings=educa.settings.local
